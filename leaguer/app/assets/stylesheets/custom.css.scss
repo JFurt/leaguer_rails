@@ -1,0 +1,523 @@
+@import 'bootstrap';
+
+/* mixins, variables, etc. */
+$colorMain: #dfd8fd;
+$grayMediumLight: #eaeaea;
+$innerBox: #9ca1ba;
+$innerBoxBorder: #464646;
+$outerUserBox: #404141;
+
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* universal */
+h4{
+  text-align: center;
+}
+
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  padding-top: 60px;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+  h1 {
+    margin-bottom: 10px;
+  }
+}
+
+/* typography */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: $grayLight;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+
+/* header */
+
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+  line-height: 1;
+  &:hover {
+    color: white;
+    text-decoration: none;
+  }
+}
+
+/* footer */
+
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid $grayMediumLight;
+  color: $grayLight;
+  a {
+    color: $gray;
+    &:hover {
+      color: $grayDarker;
+    }
+  }
+  small {
+    float: left;
+  }
+  ul {
+    float: right;
+    list-style: none;
+    li {
+      float: left;
+      margin-left: 10px;
+    }
+  }
+}
+
+/* miscellaneous */
+
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
+}
+
+/* sidebar */
+
+aside {
+  section {
+    padding: 10px 0;
+    border-top: 1px solid $grayLighter;
+    &:first-child {
+      border: 0;
+      padding-top: 0;
+    }
+    span {
+      display: block;
+      margin-bottom: 3px;
+      line-height: 1;
+    }
+    h1 {
+      font-size: 1.4em;
+      text-align: left;
+      letter-spacing: -1px;
+      margin-bottom: 3px;
+      margin-top: 0px;
+    }
+  }
+}
+
+/* forms */
+
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  width: 100%;
+  margin-bottom: 15px;
+  @include box_sizing;
+}
+
+input {
+  height: auto !important;
+}
+
+#error_explanation {
+  color: #f00;
+  ul {
+    list-style: none;
+    margin: 0 0 18px 0;
+  }
+}
+
+.field_with_errors {
+  @extend .control-group;
+  @extend .error;
+}
+
+/* Users index */
+
+
+.users {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px 0;
+    border-top: 1px solid $innerBoxBorder;
+    text-align: center;
+    &:last-child {
+      border-bottom: 1px solid $innerBoxBorder;
+    }
+  }
+}
+.teams {
+  text-align: center;
+  width: 100%;
+  tr{
+    padding: 10px 0;
+    border-top: 1px solid $grayLighter;
+    &:last-child {
+      border-bottom: 1px solid $grayLighter;
+    }
+    td{
+      padding: 10px 0;
+    }
+  }
+}
+.matches {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px 0;
+    border-top: 1px solid $grayLighter;
+    text-align: center;
+    &:last-child {
+      border-bottom: 1px solid $grayLighter;
+    }
+  }
+}
+
+
+.pagination-wrapper {
+
+}
+
+.pagination {
+  width: 100%; 
+  ul {
+    display:block; text-align: center;
+    li {
+      display: inline-block;
+      a{
+        border: 1px solid $innerBoxBorder;
+      }
+
+    }
+    li.disabled{
+      a{
+       color: black;//$innerBoxBorder;
+      }
+    }
+  }
+}
+
+h3{
+  text-align: center;
+}
+
+/* POPUP */
+
+
+#popup{
+   display: none;
+    position:fixed;  
+  width: 20%;
+    left: 40%;
+    top: 150px;
+    z-index:100; /* Layering ( on-top of others), if you have lots of layers: I just maximized, you can change it yourself */
+    margin-left: 15px;  
+    border:2px solid $innerBoxBorder;      
+//    padding:15px;  
+    font-size:15px;  
+    -moz-box-shadow: 0 0 5px $innerBoxBorder;
+    -webkit-box-shadow: 0 0 5px $innerBoxBorder;
+    box-shadow: 0 0 5px #ff0000;
+//  overflow-y: scroll;
+  h2#popup_title{
+    color: black;
+    margin-bottom: 5px;
+  }
+}
+
+#submit_challenge_form{
+  margin-bottom: 0px;
+
+  ul{
+    text-align: center;
+    list-style: none;
+    li{
+      text-align: center;
+    }
+  }
+  #submit_challenge_btn{
+    margin-left: 55px;
+
+  }
+  #submit_challenge_btn.send_challenge_btn{
+      margin-left: 90px;
+    }
+}
+.unable_challenge{
+  background-color: red;
+  height: 20px;
+
+ // left: 30%;
+ // top: 150px;
+}
+
+.able_challenge{
+  background-color: $innerBox;
+  height: 200px;
+  overflow-y: auto;
+}
+
+
+/* COLORS */
+body {
+    background-color: $colorMain;
+}
+
+
+/* STATUS */
+
+.stat_box{
+  border: 3px solid $innerBoxBorder;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  background-color: $innerBox;
+
+  h2{
+    color: black;
+  }
+
+}
+.sub_stat_box{
+  text-align: center;
+}
+.ss_2{
+  padding-left: 120px;
+}
+.ss_3{
+  float: right;
+}
+
+.outter_stat_box{
+    padding-bottom: 50px;
+}
+
+/* stuff */
+.description{
+  text-align: center;
+}
+
+.challenge_btn{
+  margin-left: 10px;
+}
+
+.challenges {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 5px 0;
+    border-top: 1px solid $innerBoxBorder;
+    text-align: center;
+    &:first-child {
+      border-top: 0px;
+    }
+  }
+}
+
+.cancel_challenge_form{
+  margin: 0;
+  disply: inline;
+  .cancel_btn{
+    padding: 0px 6px;
+    border-top: 3px 3px;
+  }
+  .challenge_btn{
+    height: 24px;
+  }
+
+}
+.captain_div{
+  border: 3px solid $innerBoxBorder;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  background-color: $innerBox;
+  h2{
+    color: black;
+  }
+  width: 500px;
+  margin: 0 auto;
+  #invite_users_btn{
+    margin-left: 80px;
+    margin-bottom: 20px;
+  }
+  #challenge_teams_btn{
+    margin-left: 30px;
+    margin-bottom: 20px;
+  }
+  margin-bottom: 50px;
+}
+
+.teams_users {
+  text-align: center;
+  width: 100%;
+  tr{
+    padding: 10px 0;
+    border-top: 1px solid $innerBoxBorder;
+    &:last-child {
+      border-bottom: 1px solid $innerBoxBorder;
+    }    
+    td{
+      padding: 10px 0;
+    }
+  }
+}
+
+.fixed_size_div {
+  height: 350px;
+  overflow-y: auto;
+}
+
+.fixed_size_div_bigger {
+  height: 500px;
+  overflow-y: auto;
+}
+
+/* Match page */
+.team_box{
+  height: 220px;
+  text-align: center;
+  border: 3px solid $innerBoxBorder;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  background-color: $innerBox;
+  ul{
+    list-style: none;
+    margin: 0;
+    li {
+      overflow: auto;
+      padding: 7px 0;
+      border-top: 0px;
+      text-align: center;
+      &:last-child {
+        border-bottom: 0px;
+      }
+    }
+  }
+}
+
+.versus_div{
+  margin-top:75px;
+  width: 285px;
+  p.versus{
+    text-align: center;
+    font-size: 3em;
+  }
+}
+
+.top_team_box{
+  padding-bottom: 20px;
+}
+
+.winner{
+  border-color: #256900;
+  background-color: #78cd4b;
+}
+
+.loser{
+  border-color: #6b1500;
+  background-color: #d1735d;
+}
+
+.player_div{
+  border: 3px solid $innerBoxBorder;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  background-color: $innerBox;
+  h2{
+    color: black;
+  }
+  width: 300px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+/* submit */
+.left_submit{
+  float: left;
+}
+
+.right_submit{
+  float: right;
+}
+
+#left_submit_label{
+  position: relative;
+  font-size: 1.2em;
+  top:0px;
+  left: 5px;
+}
+
+#left_submit_input{
+  position: relative;
+
+  top:-20px;
+  left: 45px;
+}
+
+#right_submit_label{
+  position: relative;
+  font-size: 1.2em;    
+  top:0px;
+  right: 5px;
+}
+
+#right_submit_input{
+  position: relative;
+  top:-20px;
+  right: 45px;
+}
+
+#submit_btn{
+  position: relative;
+  left: 80px;
+}
+
+.inline_form{
+  margin:0px;
+}

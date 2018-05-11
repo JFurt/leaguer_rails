@@ -1,0 +1,29 @@
+<% provide(:title, "Invite") %>
+<h1> Invite Users </h1>
+<!--<%= form_tag send_invite_path(@team), method: :post do %>
+	<% @users.each do |user| %>
+		<%= check_box_tag "user[#{user.id}]" %><%= label_tag user.id, user.email %>
+	<% end %>
+	<%= submit_tag 'Invite Users' %>
+<% end %>-->
+<%= will_paginate @users%>
+<ul class="users">
+	<% @users.each do |user| %>
+		<li>
+
+			<% if @team.can_invite?(user.id) %>
+				<%= form_tag send_invite_path(@team), method: :post, class: 'inline_form' do %>
+					<%= link_to user.name, user_path(user.id) %>				
+					<%= hidden_field_tag 'invited_id', user.id %>
+					<%= submit_tag 'Invite', class: 'btn' %>
+				<% end %>
+			<% elsif @team.member?(user.id) %>
+				<%= link_to user.name, user_path(user.id) %>
+				<%= button_tag "Member", disabled: true %>
+			<% else %>
+				<%= link_to user.name, user_path(user.id) %>
+				<%= button_tag "Invited", disabled: true %>
+			<% end %>
+		</li>
+	<% end %>
+</ul>

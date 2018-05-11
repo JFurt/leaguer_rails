@@ -1,0 +1,15 @@
+<%provide(:title, 'Home') %>
+<div class="center hero-unit">
+  <h1>Welcome to Leaguer!</h1>
+
+  <h2>
+  	Here you can compete with and against your friends for a top rank in the main league!
+  </h2>
+  <h2>
+  	Please read the <%= link_to "help", help_path %> page for guides and more
+  </h2>
+  <% if !signed_in? %>
+  	<%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %>
+  <% end %>
+
+</div>

@@ -1,0 +1,131 @@
+<% provide(:title,@team.name) %>
+<div id="contentDiv">
+<h1><%=@team.name%></h1>
+<div class="row outter_stat_box">
+	<div class="stat_box row">
+		<h2> Statistics </h2>
+		<div class="span3 sub_stat_box ss_1">
+			<p> Points: <%= @team.points %> </p>
+			<p> League Position: <%= @team.rank %> </p>
+		</div>
+		<div class="span3 sub_stat_box ss_2">
+			<p> Matches Played: <%= @matches.count %> </p>
+			<p> Matches Won: <%= @team.matches_won.count %> </p>
+		</div>
+		<div class="span3 sub_stat_box ss_3">
+			<p> Win %: <%= @team.win_percentage %>% </p>
+			<p> Number of Users: <%= @users.count %></p>
+		</div>
+	</div>
+
+</div>
+<div class="row">
+	<% if @team.member?(current_user) and current_user.user_team_relationships.find_by_team_id(@team.id).captain? %>
+		<div class="captain_div">
+			<h3> Welcome Captain! </h3>
+			<%= link_to "Invite Users", invite_to_team_path(@team), class: "btn btn-large btn-primary", id: 'invite_users_btn'%>
+			<%= link_to "Challenge Teams", challenge_teams_path(@team), class: "btn btn-large btn-primary", id: 'challenge_teams_btn' %>
+		</div>
+	<% end %>
+</div>
+<div class="row">
+	<div class="span4 stat_box fixed_size_div">
+	    <h3> Members </h3>
+	    <table class="teams_users">
+	      <tr>
+	        <th> User </th>
+	        <th> Matches Played </th>
+	      </tr>
+	      <% @users.each do |user| %>
+	      <tr>
+	        <td><%= link_to user.name, user %></td>
+	        <td><%= @team.matches_played(user) %></td>
+	      </tr>
+	      <% end %>
+	    </table>
+	    <!--	
+		<h3> Users </h3>
+		<% @users.each do |user| %>
+			<%= link_to user.name, user_path(user) %>
+		<% end %>-->
+	</div>
+
+	<div class="span4 stat_box fixed_size_div">
+		<h3> Latest Matches </h3>
+		<% if !@matches.empty? %>
+	     <table class="teams_users">
+	        <tr>
+	          <th> Match </th>
+	          <th> Challenge </th>
+	        </tr>
+	        <% @matches.each do |match| %>
+	        <tr>
+	          <td><%= link_to "Match##{match.id}", match %></td>
+	          <td><%= link_to "#{match.team_1.name}", team_path(match.team_1) %> vs <%= link_to "#{match.team_2.name}", team_path(match.team_2)   %></td>
+	        </tr>
+	        <% end %>
+	      </table>     
+		<% else %>
+			<p class="description">No matches were played by this team!</p>
+		<% end %>
+	</div>
+	<!-- Only Captain -->
+	<% if signed_in? and @team.member?(current_user) %>
+		<div class="span3 stat_box fixed_size_div">
+			<h3> Open Challenges </h3>
+			<% if !@challenging_matches.empty? %>
+				<h4> Challenged Teams </h4>
+				<ul class="challenges">
+					<% @challenging_matches.each do |match| %>
+						<li><%= link_to match.team_2.name, team_path(match.team_2) %></li>
+					<% end %>
+				</ul>
+			<% end %>
+			
+			<% if !@challenged_matches.empty? %>
+				<h4> Challenging Teams </h4>
+				<ul class="challenges">
+				<% @challenged_matches.each do |match| %>
+					<li>
+					<% if @team.captain?(current_user) %>
+						<%= form_tag cancel_challenge_path(@team), via: :post, class: 'cancel_challenge_form' do %>
+							<%= link_to match.team_1.name, team_path(match.team_1),class: 'challenge_link' %>	
+							<%= button_tag "Accept",type: 'button', class: 'challenge_btn', id: "accept-challenge-#{match.team_1_id}" %>										
+							<%= hidden_field_tag 'team_1_id', match.team_1_id %>
+							<%= hidden_field_tag 'redirect_path', team_path(@team) %>
+							<%= submit_tag 'Decline', class: 'btn cancel_btn' %>
+						<% end %>
+					<% else %>
+						<%= link_to match.team_1.name, team_path(match.team_1),class: 'challenge_link' %>	
+					<% end %>				
+					</li>
+				<% end %>
+				</ul>
+			<% end %>
+			<% if @challenging_matches.empty? and @challenged_matches.empty? %>
+				<p class="description"> The team does not have an open challenge! </p>
+			<% end %>
+		</div>
+	<% end %>
+</div>
+
+</div>
+
+
+
+<div id="popup">
+	<% if @team.free_users.count < 5 %>
+		<div id="#popupInner" class="unable_challenge">
+			Unable to challenge teams, less than 5 free users
+		</div>
+	<% else %>
+		<div id="#popupInner" class="able_challenge">
+			<h2 id="popup_title"> Choose 5 users to play </h2>
+			<%= form_tag accept_challenge_path(@team), method: :post, id: 'submit_challenge_form' do %>
+				<%= render 'select_team' %>
+				<%= hidden_field_tag 'challenge_id', 100 %>			
+				<%= submit_tag "Accept Challenge", disabled: true , class: 'btn',id: 'submit_challenge_btn'%>
+			<% end %>
+		</div>
+	<% end %>
+</div>

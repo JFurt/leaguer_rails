@@ -1,0 +1,52 @@
+<% provide(:title, "Challenge") %>
+<div id="contentDiv">
+<h1> Challenge Teams </h1>
+<!--<% @teams.each do |team| %>
+	<p><%= link_to team.name, team_path(team) %> <%= button_tag "Challenge" , id: "challenge-team-#{@team.id}-#{team.id}", class: 'challenge-team'%></p>
+<% end %>-->
+<%= will_paginate @teams %>
+<ul class="users">
+	<% @teams.each do |team| %>
+		<li>
+			<!--
+			<%= link_to team.name, team_path(team.id) %>
+			<% if @team.can_challenge?(team.id) %>
+				<%= button_tag "Challenge", class: 'challenge_btn', id: "send-challenge-#{team.id}" %>
+			<% else %>
+				<%= button_tag "Challenged", disabled: true %>
+			<% end %>
+			-->
+			<% if @team.challenging?(team.id) %>
+				<%= form_tag cancel_challenge_path(@team), via: :post, class: 'cancel_challenge_form' do %>
+					<%= link_to team.name, team_path(team.id) %>
+					<%= hidden_field_tag 'team_1_id', @team.id %>
+					<%= hidden_field_tag 'redirect_path', challenge_teams_path(@team) %>
+					<%= submit_tag 'Decline', class: 'btn cancel_btn_on_challenge	' %>
+				<% end %>
+			<% elsif team.challenging?(@team.id) %>
+				<%= link_to team.name, team_path(team.id) %>
+				<%= button_tag "Accept on Team Page",class: 'btn', disabled: true %>
+			<% else %>
+				<%= link_to team.name, team_path(team.id) %>
+				<%= button_tag "Challenge", class: 'btn challenge_btn', id: "send-challenge-#{team.id}" %>
+			<% end %>			
+		</li>
+	<% end %>
+</ul>
+</div>
+<div id="popup">
+	<% if @team.free_users.count < 5 %>
+		<div id="#popupInner" class="unable_challenge">
+			Unable to challenge teams, less than 5 free users
+		</div>
+	<% else %>
+		<div id="#popupInner" class="able_challenge">
+			<h2 id="popup_title"> Choose 5 users to play </h2>
+			<%= form_tag send_challenge_path(@team), method: :post, id: 'submit_challenge_form' do %>
+				<%= hidden_field_tag 'challenge_id', 100 %>	
+				<%= render 'select_team' %>		
+				<%= submit_tag "Challenge", disabled: true , class: 'btn send_challenge_btn',id: 'submit_challenge_btn'%>
+			<% end %>
+		</div>
+	<% end %>
+</div>

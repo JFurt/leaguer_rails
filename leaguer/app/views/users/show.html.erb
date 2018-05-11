@@ -1,0 +1,44 @@
+<% provide(:title,@user.name) %>
+<div class="row">
+  <aside class="span3">
+    <section>
+      <h1>
+        <%= @user.name %>
+      </h1>
+    </section>
+  </aside>
+  <div class="span4 stat_box fixed_size_div">
+      <h3> Teams </h3>
+      <table class="teams_users">
+        <tr>
+          <th> Team </th>
+          <th> Matches Played </th>
+        </tr>
+        <% @teams.each do |team| %>
+        <tr>
+          <td><%= link_to team.name, team %></td>
+          <td><%= team.matches_played(@user) %></td>
+        </tr>
+        <% end %>
+      </table>
+  </div>
+  <% if correct_user? %>
+    <% if !@inviting_teams_rel.empty? %>
+      <div class="span4 stat_box fixed_size_div" style="float:right;">
+      	<h3> Pending Invitations </h3>
+        <ul class="users">
+        	<% @inviting_teams_rel.each do |inviting_team_rel| %>
+            <li>
+        		<%= link_to inviting_team_rel.team.name, team_path(inviting_team_rel.team) %>
+        		Invited at: <%= inviting_team_rel.created_at.strftime("%m/%d/%Y") %>
+        		<%= form_tag accept_invite_path(@user), method: :put, class: 'inline_form' do %>
+        			<%= hidden_field_tag 'team_id', inviting_team_rel.team_id %>
+        			<%= submit_tag "Accept", class: "btn btn-large btn-primary" %>
+        		<% end %>
+          </li>
+        	<% end %>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+</div>

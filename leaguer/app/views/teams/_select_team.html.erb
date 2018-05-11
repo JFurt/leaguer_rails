@@ -1,0 +1,9 @@
+<ul>
+	<% @team.free_users.each do |user| %>
+		<li>
+		<%= link_to user.name, user %> 
+		<%= check_box_tag "users[#{user.id}]", 0,false, class: 'select_user' %>
+		</li>
+	<% end %>
+	
+</ul>

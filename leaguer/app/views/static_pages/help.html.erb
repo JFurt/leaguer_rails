@@ -1,0 +1,27 @@
+<% provide(:title, "Help") %>
+<h1> Help </h1>
+This app provides a way for you to form teams with your friends
+and play agains opponents to achieve a higher rank on the league.
+
+<h2> Features </h2>
+<ul>
+	<li>Players can enroll in more than one team at the same time</li>
+	<li>Teams can challenge and play against multiple teams at the same tame, as long as they have 5 different users for each match</li>
+	<li>Various statistics about the teams</li>
+	<li>And many more!</li>
+</ul>
+
+<h2> Guide </h2>
+<ol>
+	<% if !signed_in?%><li>Create a new user at the <%= link_to "Signup", signup_path %> page</li><% end %>
+	<li>Create a new team at the <%= link_to "Create Team", new_team_path %> page</li>
+	<li>Invite new users to your team at the Invite page which can be accessed from the team page, if you are the team's creator</li>
+	<li>After 5 users have accepted your invitation you can challenge other teams at the Challenge page which is also on the team's page</li>
+	<li>After the opponent team have accepted your challenge you can access the Match page, which can be found on the team's page under Ongoing Matches</li>
+	<li>After your game have finished, you and your teammates will have to report the result of the Match on the Match's page</li>
+	<li>After at least 5 users have agreed on a result for the match, the points will be computed and your team's rank will improve/decrease</li>
+	<li>You can check the other team's rank on the <%= link_to "Main League", league_path %> page</li>
+</ol>
+
+<h2>Sample DB</h2>
+You can RESET the database and create a new one with sample data by running the command ./reset_and_sample_db.sh from the main directory of the project. The server will be killed and restarted at the port 3135 in the proccess. This may take long.

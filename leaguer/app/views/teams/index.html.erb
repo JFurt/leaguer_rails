@@ -1,0 +1,18 @@
+<% provide(:title, 'All teams') %>
+<h1>All teams</h1>
+
+<%= will_paginate %>
+
+<ul class="users">
+  <% @teams.each do |team| %>
+    <li>
+      <%= link_to team.name, team %>
+      <% if current_user.admin? %>
+      | <%= link_to "delete", team, method: :delete,
+                                    data: { confirm: "You sure?" } %>    
+       <% end %>  
+    </li>
+  <% end %>
+</ul>
+
+<%= will_paginate %>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  team_1_id: 1
+  team_2_id: 1
+  team_1_won: false
+  finished: false
+
+two:
+  team_1_id: 1
+  team_2_id: 1
+  team_1_won: false
+  finished: false

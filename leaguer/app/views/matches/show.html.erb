@@ -1,0 +1,56 @@
+<% provide(:title, 'Match') %>
+<div class="top_team_box">
+<h1>Match#<%= @match.id %></h1>
+<% if !@match.finished? %>
+	<h3> Ongoing Match </h3>
+<% else %>
+	<h3> Finished Match </h3>
+<% end %>
+</div>
+<div class="row">
+<% if !@match.finished? %>
+	<div class="team_box span4">
+<% elsif @match.team_1_won %>
+	<div class="team_box span4 winner">
+<% else %>
+	<div class="team_box span4 loser">
+<% end %>
+<h4><%= link_to @match.team_1.name, team_path(@match.team_1_id) %></h4>
+<ul>
+<% @match.users_team_1.each do |user| %>
+	<li><%= link_to user.name,user %></li>
+<% end %>
+</ul>
+</div>
+<div class="span3 versus_div">
+	<p class="versus">VS</p>
+</div>
+<div class="row">
+<% if !@match.finished? %>
+	<div class="team_box span4">
+<% elsif @match.team_1_won %>
+	<div class="team_box span4 loser">
+<% else %>
+	<div class="team_box span4 winner">
+<% end %>
+<h4><%= link_to @match.team_2.name, team_path(@match.team_2_id) %></h4>
+<ul>
+<% @match.users_team_2.each do |user| %>
+	<li><%= link_to user.name,user %></li>
+<% end %>
+</ul>
+</div>
+</div>
+<% if @match.can_vote?(current_user.id) %>
+	<div class="player_div">
+	<h3> Submit Result! </h3>
+	<%= form_tag submit_result_path(@match), via: :post do %>
+		<%= label_tag "#{@match.team_1.name} Won" ,nil, class: 'left_submit', id: 'left_submit_label'%>
+		<%= label_tag "#{@match.team_2.name} Won", nil, class: 'right_submit', id: 'right_submit_label' %>
+		<br><br>
+		<%= radio_button_tag "winner", 1 ,false, class: 'left_submit', id: 'left_submit_input'%>
+		<%= radio_button_tag "winner", 2 ,false, class: 'right_submit', id: 'right_submit_input'%>
+		<%= submit_tag "Submit Result", class: "btn", id: 'submit_btn' %>
+	<% end %>
+	</div>		
+<% end %>

@@ -1,0 +1,64 @@
+<% provide(:title,'League') %>
+<h1>League</h1>
+<div class="row">
+
+  <div class="span5 stat_box fixed_size_div_bigger">
+    <h3> Teams </h3>
+    <table class="teams teams_users">
+      <tr>
+        <th> Team </th>
+        <th> Points </th>
+      </tr>
+      <% @teams.each do |team| %>
+      <tr>
+        <td><%= link_to team.name, team %></td>
+        <td><%= team.points %></td>
+      </tr>
+      <% end %>
+    </table>
+    <div class="pagination-wrapper">
+      <%= will_paginate @teams, param_name: 'team_page'%>
+    </div>    
+  </div>
+  <!--
+<div class="span5">
+  <h1> Users </h1>
+<div class="pagination-wrapper">
+<%= will_paginate @users, param_name: 'user_page'%>
+</div>
+<ul class="users">
+  <% @users.each do |user| %>
+    <li>
+      <%= link_to user.name, user %>
+    </li>
+  <% end %>
+</ul>
+</div>
+-->
+
+  <div class="span5 stat_box fixed_size_div_bigger" style="float:right;">
+    <h3> Matches </h3>
+    <% if !@matches.empty? %>
+      <table class="teams_users">
+        <tr>
+          <th> Match </th>
+          <th> Challenge </th>
+        </tr>
+        <% @matches.each do |match| %>
+        <tr>
+          <td><%= link_to "Match##{match.id}", match %></td>
+          <td><%= link_to "#{match.team_1.name}", team_path(match.team_1) %> vs <%= link_to "#{match.team_2.name}", team_path(match.team_2)   %></td>
+        </tr>
+        <% end %>
+      </table>
+      <div class="pagination-wrapper">
+        <%= will_paginate @matches, param_name: 'match_page'%>
+      </div>      
+    <% else %>
+      <p class="description"> No matches were played on this league yet! </p>
+    <% end %>
+  
+  </div>
+</div>
+
+</div>
